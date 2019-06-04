@@ -38,13 +38,13 @@ namespace PrintSelected
             if (res)
             {
                 MessageBox.Show("Рекоммендация успешно сохранена");
+                
             }
             else
             {
                 MessageBox.Show("Произошла ошибка при добавлении рекомендации");
             }
-
-            this.DialogResult = true;
+            this.DialogResult=true;
         }
 
 

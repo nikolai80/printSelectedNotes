@@ -42,13 +42,11 @@ namespace PrintSelected
             AddEditNote addEditNoteWindow = new AddEditNote();
             addEditNoteWindow.Owner = this;
             addEditNoteWindow.Repo = repo;
-            addEditNoteWindow.Show();
-
-            #region Для тестирования
-            //var testText = Lorem.Paragraph(10, 3);
-            //repo.Create(testText);
-            //repo.GetAll();
-            #endregion
+            var result=addEditNoteWindow.ShowDialog();
+            if (result==true) {
+                this.recommendationsList.ItemsSource = repo.GetAll();
+            }
+           
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
