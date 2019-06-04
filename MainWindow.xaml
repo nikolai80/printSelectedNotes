@@ -1,0 +1,54 @@
+﻿<Window x:Class="PrintSelected.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PrintSelected"
+        mc:Ignorable="d"
+        Title="Рекоммендации для пациента" MinHeight="145" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight" >
+    <StackPanel >
+        <Menu Height="Auto" Width="Auto" VerticalAlignment="Top" FontSize="14">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Создать рекомендацию"></MenuItem>
+                <MenuItem Header="Удалить выбранные"></MenuItem>
+                <MenuItem Header="Печать выбранных" Click="Button_Click_Print"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <DockPanel VerticalAlignment="Top"  >
+            <Label Content="Имя пациента" HorizontalAlignment="Left" Margin="10,5,10,5" VerticalAlignment="Top" Height="26"/>
+            <TextBox Height="26" TextWrapping="Wrap" Text="TextBox" MinWidth="154" x:Name="PatientNameTxbox"/>
+        </DockPanel>
+        <ListBox Name="recommendationsList" Margin="0,0,0,0" Grid.RowSpan="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition ToolTip="{x:Null}" Height="100" Language="ru-ru"/>
+                        </Grid.RowDefinitions>
+                        <CheckBox Cursor="Arrow" ToolTip="Выберите для вывода на печать" VerticalContentAlignment="Center" Content="" Checked="CheckBox_Checked" Uid="{Binding Id}"></CheckBox>
+                        <TextBlock Text="{Binding Path=Text}" Grid.Column="1"  FontSize="14" FontFamily="Arial" Padding="10" ScrollViewer.CanContentScroll="False" Cursor="Hand" TextWrapping="Wrap" TextTrimming="WordEllipsis" ToolTip="Нажмите для редактирования"></TextBlock>
+                        <Button Grid.Column="2" Uid="{Binding Id}" FontSize="14" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Right">Изменить</Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <DockPanel VerticalAlignment="Bottom" Height="50">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Content="Печать выбранных" Grid.Column="0" Margin="0" Background="#FF46F175" Foreground="White" FontSize="20" FontFamily="Arial Black" Click="Button_Click_Print"/>
+                <Button Content="Добавить рекомендацию"  Cursor="Hand" Click="Button_Click_AddRecommendation" Grid.Column="1" Foreground="White" Background="#FF40C5EC" FontSize="20" FontFamily="Arial Black"/>
+            </Grid>
+        </DockPanel>
+    </StackPanel>
+</Window>
