@@ -63,9 +63,20 @@ namespace PrintSelected
             recomendationDocument.CreateDocumentWord(PatientNameTxbox.Text);
         }
 
-        
+        private void Button_Click_Update(object sender, RoutedEventArgs e)
+        {
+            Button btn = e.Source as Button;
 
-        
+            AddEditNote addEditNoteWindow = new AddEditNote();
+            addEditNoteWindow.Owner = this;
+            addEditNoteWindow.Repo = repo;
+            addEditNoteWindow.RecommendationGuid = btn.Uid;
+            var result = addEditNoteWindow.ShowDialog();
+            if (result == true)
+            {
+                this.recommendationsList.ItemsSource = repo.GetAll();
+            }
 
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace PrintSelected.BLL
         T GetById(Guid id);
         List<T> GetAll();
         bool Create(string text);
-        bool Remove(T item);
+        bool Remove(Guid itemId);
+
+        bool Update(Guid itemId, string text);
     }
 }

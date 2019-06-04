@@ -21,9 +21,20 @@ namespace PrintSelected
     public partial class AddEditNote : Window
     {
         public ParodontRecommendationRepository Repo { get; set; }
+        public string RecommendationGuid { get; set; }
         public AddEditNote()
         {
             InitializeComponent();
+            this.Loaded += AddEditNoteWindow_Loaded;
+            
+        }
+
+        private void AddEditNoteWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(RecommendationGuid))
+            {
+                NoteTxbox.Text = Repo.GetById(Guid.Parse(RecommendationGuid)).Text;
+            }
         }
 
         private void Button_Click_Save(object sender, RoutedEventArgs e)
@@ -31,20 +42,24 @@ namespace PrintSelected
             var text = NoteTxbox.Text;
             var res = false;
 
-           
-                res = Repo.Create(text); 
-            
 
-            if (res)
+            if (!String.IsNullOrEmpty(RecommendationGuid))
             {
-                MessageBox.Show("Рекоммендация успешно сохранена");
-                
+                res = Repo.Update(Guid.Parse(RecommendationGuid), text);
+                MessageBox.Show("Рекоммендация успешно обновлена");
             }
             else
             {
+                res = Repo.Create(text);
+                MessageBox.Show("Рекоммендация успешно добавлена");
+            }
+
+            if (!res)
+            {
                 MessageBox.Show("Произошла ошибка при добавлении рекомендации");
             }
-            this.DialogResult=true;
+            
+            this.DialogResult = true;
         }
 
 

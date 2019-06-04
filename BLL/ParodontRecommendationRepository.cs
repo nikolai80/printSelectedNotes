@@ -21,37 +21,23 @@ namespace PrintSelected.BLL
             if (!String.IsNullOrEmpty(text))
             {
                 Guid id = Guid.NewGuid();
-                List<ParodontRecommendation> recommendationList = GetAll() ?? new List<ParodontRecommendation>();
+                List<ParodontRecommendation> recommendationList = GetListData() ?? new List<ParodontRecommendation>();
                 var recommendation = new ParodontRecommendation
                 {
                     Id = id,
                     Text = text
                 };
                 recommendationList.Add(recommendation);
-
-                try
-                {
-                    if (File.Exists(path))
-                    {
-                        string json = JsonConvert.SerializeObject(recommendationList, Formatting.Indented);
-                        File.WriteAllText(path, json);
-                        res = true;
-                    }
-
-                }
-                catch (Exception ex)
-                {
-
-                    throw;
-                } 
+                res = UpdateFileData(recommendationList);
             }
 
             return res;
         }
 
+
         public List<ParodontRecommendation> GetAll()
         {
-           return GetListData();
+            return GetListData();
         }
 
         public ParodontRecommendation GetById(Guid id)
@@ -63,9 +49,22 @@ namespace PrintSelected.BLL
             return res;
         }
 
-        public bool Remove(ParodontRecommendation item)
+        public bool Remove(Guid id)
         {
             var res = false;
+
+            return res;
+        }
+
+        public bool Update(Guid id, string text)
+        {
+            var res = false;
+            if (!String.IsNullOrEmpty(text))
+            {
+                List<ParodontRecommendation> recommendationList = GetListData() ?? new List<ParodontRecommendation>();
+                recommendationList.Find(r => r.Id == id).Text = text;
+                res = UpdateFileData(recommendationList);
+            }
 
             return res;
         }
@@ -94,5 +93,28 @@ namespace PrintSelected.BLL
             }
             return recommendationList;
         }
+
+        private bool UpdateFileData(List<ParodontRecommendation> recommendationList)
+        {
+            var res = false;
+            try
+            {
+                if (File.Exists(path))
+                {
+                    string json = JsonConvert.SerializeObject(recommendationList, Formatting.Indented);
+                    File.WriteAllText(path, json);
+                    res = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return res;
+        }
+
     }
 }
