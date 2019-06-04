@@ -49,11 +49,16 @@ namespace PrintSelected.BLL
             return res;
         }
 
-        public bool Remove(Guid id)
+        public void Remove(List<Guid> listId)
         {
-            var res = false;
-
-            return res;
+            
+            List<ParodontRecommendation> recommendationList = GetListData() ?? new List<ParodontRecommendation>();
+            foreach (var id in listId)
+            {
+                recommendationList.Remove(recommendationList.Find(r => r.Id == id)); 
+            }
+            this.UpdateFileData(recommendationList);
+            
         }
 
         public bool Update(Guid id, string text)

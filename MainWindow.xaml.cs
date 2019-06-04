@@ -78,5 +78,18 @@ namespace PrintSelected
             }
 
         }
+
+        private void MenuItem_Click_RemoveRecommendations(object sender, RoutedEventArgs e)
+        {
+            List<Guid> listGuids = new List<Guid>();
+            foreach (var item in this.selectedIdList)
+            {
+                listGuids.Add(Guid.Parse(item));
+            }
+            repo.Remove(listGuids);
+            this.recommendationsList.ItemsSource = repo.GetAll();
+        }
+
+       
     }
 }

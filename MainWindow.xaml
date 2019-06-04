@@ -10,7 +10,7 @@
         <Menu Height="Auto" Width="Auto" VerticalAlignment="Top" FontSize="14">
             <MenuItem Header="Файл">
                 <MenuItem Header="Создать рекомендацию"></MenuItem>
-                <MenuItem Header="Удалить выбранные"></MenuItem>
+                <MenuItem Header="Удалить выбранные" Click="MenuItem_Click_RemoveRecommendations"></MenuItem>
                 <MenuItem Header="Печать выбранных" Click="Button_Click_Print"></MenuItem>
             </MenuItem>
         </Menu>
