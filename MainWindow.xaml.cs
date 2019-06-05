@@ -90,6 +90,9 @@ namespace PrintSelected
             this.recommendationsList.ItemsSource = repo.GetAll();
         }
 
-       
+        private void MenuItem_Click_Exit(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
