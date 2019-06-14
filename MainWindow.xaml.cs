@@ -61,6 +61,7 @@ namespace PrintSelected
         {
             recomendationDocument.DocumentIds = selectedIdList;
             recomendationDocument.CreateDocumentWord(PatientNameTxbox.Text);
+
         }
 
         private void Button_Click_Update(object sender, RoutedEventArgs e)

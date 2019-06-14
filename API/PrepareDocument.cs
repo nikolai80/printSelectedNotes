@@ -7,17 +7,18 @@ using Word = Microsoft.Office.Interop.Word;
 using System.Reflection;
 using System.Windows;
 using PrintSelected.BLL;
+using System.Windows.Controls;
 
 namespace PrintSelected.API
 {
     class PrepareDocument
     {
-        
+
         public List<string> DocumentIds { get; set; }
         ParodontRecommendationRepository repo = new ParodontRecommendationRepository();
-        public void CreateDocumentWord(string pacientName)
+        public string CreateDocumentWord(string pacientName)
         {
-            string filename;
+            string res = "";
             StringBuilder finalText = new StringBuilder();
             try
             {
@@ -45,7 +46,7 @@ namespace PrintSelected.API
                     headerRange.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
                     object styleHeading1 = Word.WdBuiltinStyle.wdStyleHeading1;
                     headerRange.set_Style(ref styleHeading1);
-                    headerRange.Text = "Уважаемый(-ая) "+pacientName;
+                    headerRange.Text = "Уважаемый(-ая) " + pacientName;
                 }
 
                 //Add the footers into the document  
@@ -75,8 +76,8 @@ namespace PrintSelected.API
 
                 var dir = GetDocumentDirectory();
 
-                object file = System.IO.Path.Combine(dir + "\\document", "temp1.docx");
-
+                object file = System.IO.Path.Combine(dir + "\\document", pacientName.Trim() + ".docx");
+                res = file.ToString();
 
                 document.SaveAs2(ref file);
                 document.Close(ref missing, ref missing, ref missing);
@@ -89,9 +90,12 @@ namespace PrintSelected.API
             {
                 MessageBox.Show(ex.Message);
             }
+
+            return res;
         }
 
-        private string PrepareRecomendations() {
+        private string PrepareRecomendations()
+        {
             string res = "";
             StringBuilder finalText = new StringBuilder();
             foreach (var id in this.DocumentIds)
@@ -110,6 +114,39 @@ namespace PrintSelected.API
             string path = Uri.UnescapeDataString(uri.Path);
             path = System.IO.Path.GetDirectoryName(path);
             return path;
+        }
+
+        public void PrintDocument(string file) {
+
+            // Instantiated an object of Spire.Doc.Document
+
+                Word.Document doc = new Word.Document();
+	            //Load word document
+
+                doc.(file);
+	            // Instantiated System.Windows.Forms.PrintDialog object .
+
+                PrintDialog dialog = new PrintDialog();
+
+                
+	      
+
+                doc.PrintDialog = dialog;
+
+                PrintDocument printDoc = doc.PrintDocument;
+	            //Background printing 
+
+                printDoc.Print();
+	            //Interaction printing 
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+
+                {
+
+                    printDoc.Print();
+
+                }
+
         }
 
     }
