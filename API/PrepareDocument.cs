@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Windows;
 using PrintSelected.BLL;
 using System.Windows.Controls;
+using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace PrintSelected.API
 {
@@ -116,36 +118,51 @@ namespace PrintSelected.API
             return path;
         }
 
-        public void PrintDocument(string file) {
+        public void PrintDocument(string file)
+        {
 
-            // Instantiated an object of Spire.Doc.Document
+            object nullobj = Missing.Value;
 
-                Word.Document doc = new Word.Document();
-	            //Load word document
+            var wordApp = new Word.Application();
+            wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
+            wordApp.Visible = false;
 
-                doc.(file);
-	            // Instantiated System.Windows.Forms.PrintDialog object .
+            Word.Document doc = null;
+            Word.Documents docs = null;
+            Word.Dialog dialog = null;
 
-                PrintDialog dialog = new PrintDialog();
+            try
+            {
+                docs = wordApp.Documents;
+                doc = docs.Open(file);
 
-                
-	      
-
-                doc.PrintDialog = dialog;
-
-                PrintDocument printDoc = doc.PrintDocument;
-	            //Background printing 
-
-                printDoc.Print();
-	            //Interaction printing 
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-
+                doc.Activate();
+                dialog = wordApp.Dialogs[Word.WdWordDialog.wdDialogFilePrint];
+                var dialogResult = dialog.Show(ref nullobj);
+                if (dialogResult == 1)
                 {
-
-                    printDoc.Print();
-
+                    doc.PrintOut(false);
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                Thread.Sleep(3000);
+                if (dialog != null) Marshal.FinalReleaseComObject(dialog);
+                if (doc != null) Marshal.FinalReleaseComObject(doc);
+                if (docs != null) Marshal.FinalReleaseComObject(docs);
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                doc = null;
+                wordApp.Quit(false, ref nullobj, ref nullobj);
+            }
 
         }
 

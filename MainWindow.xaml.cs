@@ -60,7 +60,9 @@ namespace PrintSelected
         private void Button_Click_Print(object sender, RoutedEventArgs e)
         {
             recomendationDocument.DocumentIds = selectedIdList;
-            recomendationDocument.CreateDocumentWord(PatientNameTxbox.Text);
+          var file= recomendationDocument.CreateDocumentWord(PatientNameTxbox.Text);
+
+            recomendationDocument.PrintDocument(file);
 
         }
 
