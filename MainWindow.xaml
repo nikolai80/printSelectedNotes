@@ -26,7 +26,7 @@
 
         <!--Список рекомендаций-->
         <ScrollViewer>
-            <ListBox Name="recommendationsList" HorizontalContentAlignment="Stretch">
+            <ListBox Name="recommendationsList" HorizontalContentAlignment="Stretch" SelectionMode="Multiple">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -38,7 +38,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition ToolTip="{x:Null}" Height="*" Language="ru-ru"/>
                             </Grid.RowDefinitions>
-                            <CheckBox Grid.Column="0" Cursor="Arrow" ToolTip="Выберите для вывода на печать" VerticalContentAlignment="Center" HorizontalAlignment="Left" Content="" Checked="CheckBox_Checked" Uid="{Binding Id}"></CheckBox>
+                            <CheckBox Grid.Column="0" Cursor="Arrow" ToolTip="Выберите для вывода на печать" VerticalContentAlignment="Center" HorizontalAlignment="Left" Content="" Uid="{Binding Id}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"></CheckBox>
                             <TextBlock Grid.Column="1" Text="{Binding Path=Text}"   FontSize="14" FontFamily="Arial" Padding="10" ScrollViewer.CanContentScroll="False" HorizontalAlignment="Left" Cursor="None" TextWrapping="Wrap" TextTrimming="WordEllipsis"></TextBlock>
                             <Button Grid.Column="2" Uid="{Binding Id}" FontSize="14" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Right" Click="Button_Click_Update" Padding="2" Background="#FF0AA9F3" Foreground="White">Изменить</Button>
                         </Grid>

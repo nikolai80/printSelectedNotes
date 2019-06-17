@@ -34,7 +34,7 @@ namespace PrintSelected.API
                 winword.Visible = false;
 
                 //Create a missing variable for missing value  
-                object missing = System.Reflection.Missing.Value;
+                object missing = Missing.Value;
 
                 //Create a new document  
                 Word.Document document = winword.Documents.Add(ref missing, ref missing, ref missing, ref missing);
@@ -45,9 +45,11 @@ namespace PrintSelected.API
                     //Get the header range and add the header details.  
                     Word.Range headerRange = section.Headers[Word.WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
                     headerRange.Fields.Add(headerRange, Word.WdFieldType.wdFieldPage);
-                    headerRange.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                    headerRange.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
                     object styleHeading1 = Word.WdBuiltinStyle.wdStyleHeading1;
                     headerRange.set_Style(ref styleHeading1);
+                    headerRange.Bold = 5;
+                    headerRange.Underline =Word.WdUnderline.wdUnderlineSingle;
                     headerRange.Text = "Уважаемый(-ая) " + pacientName;
                 }
 
@@ -57,9 +59,9 @@ namespace PrintSelected.API
                     //Get the footer range and add the footer details.  
                     Word.Range footerRange = wordSection.Footers[Word.WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
                     footerRange.Font.ColorIndex = Word.WdColorIndex.wdDarkRed;
-                    footerRange.Font.Size = 10;
+                    footerRange.Font.Size = 12;
                     footerRange.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                    footerRange.Text = "Доктор Рыбченко Надежда Николаевна";
+                    footerRange.Text = "Рекоммендации выдал доктор: Рыбченко Надежда Николаевна";
                 }
 
                 //Add paragraph with Heading 1 style Закомментировано для примера использования стилей  
@@ -100,6 +102,7 @@ namespace PrintSelected.API
         {
             string res = "";
             StringBuilder finalText = new StringBuilder();
+            finalText.Append(Environment.NewLine);
             foreach (var id in this.DocumentIds)
             {
                 var textId = Guid.Parse(id);
