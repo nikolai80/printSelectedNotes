@@ -12,8 +12,7 @@
                 <MenuItem Header="Файл">
                     <MenuItem Header="Создать рекомендацию" Click="Button_Click_AddRecommendation"></MenuItem>
                     <MenuItem Header="Удалить выбранные" Click="MenuItem_Click_RemoveRecommendations"></MenuItem>
-                    <MenuItem Header="Сохранить выбранные" Click="MenuItem_Click_SaveDocument">
-                    </MenuItem>
+                    <MenuItem Header="Сохранить выбранные" Click="MenuItem_Click_SaveDocument"></MenuItem>
                     <MenuItem Header="Печать выбранных" Click="Button_Click_Print"></MenuItem>
                     <Separator></Separator>
                     <MenuItem Header="Выход" Click="MenuItem_Click_Exit"></MenuItem>
