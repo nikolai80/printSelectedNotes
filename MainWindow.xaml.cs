@@ -98,5 +98,18 @@ namespace PrintSelected
         {
             Application.Current.Shutdown();
         }
+
+        private void MenuItem_Click_SaveDocument(object sender, RoutedEventArgs e)
+        {
+            selectedIdList.Clear();
+            var items = recommendationsList.SelectedItems;
+            foreach (ParodontRecommendation item in recommendationsList.SelectedItems)
+            {
+                selectedIdList.Add(item.Id.ToString());
+            }
+
+            recomendationDocument.DocumentIds = selectedIdList;
+           recomendationDocument.CreateDocumentWord(PatientNameTxbox.Text);
+        }
     }
 }

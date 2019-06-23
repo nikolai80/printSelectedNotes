@@ -10,12 +10,13 @@ using PrintSelected.BLL;
 using System.Windows.Controls;
 using System.Threading;
 using System.Runtime.InteropServices;
+using NLog;
 
 namespace PrintSelected.API
 {
     class PrepareDocument
     {
-
+        private static Logger _log = LogManager.GetCurrentClassLogger();
         public List<string> DocumentIds { get; set; }
         ParodontRecommendationRepository repo = new ParodontRecommendationRepository();
         public string CreateDocumentWord(string pacientName)
@@ -92,7 +93,9 @@ namespace PrintSelected.API
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                _log.Error(ex.Message);
+                MessageBox.Show("Произошла ошибка при сохранении документа. Обратитесь в техническую поддержку.");
+                
             }
 
             return res;
@@ -101,14 +104,24 @@ namespace PrintSelected.API
         private string PrepareRecomendations()
         {
             string res = "";
-            StringBuilder finalText = new StringBuilder();
-            finalText.Append(Environment.NewLine);
-            foreach (var id in this.DocumentIds)
+            try
             {
-                var textId = Guid.Parse(id);
-                finalText.Append(repo.GetById(textId).Text + Environment.NewLine);
+                StringBuilder finalText = new StringBuilder();
+                finalText.Append(Environment.NewLine);
+                foreach (var id in this.DocumentIds)
+                {
+                    var textId = Guid.Parse(id);
+                    finalText.Append(repo.GetById(textId).Text + Environment.NewLine);
+                }
+                res = finalText.ToString();
             }
-            res = finalText.ToString();
+            catch (ArgumentOutOfRangeException ex)
+            {
+                _log.Error("Ошибка подготовки текста. {0}", ex.Message);
+            }
+            catch (Exception ex) {
+                _log.Error("Ошибка подготовки текста. {0}", ex.Message);
+            }
             return res;
         }
 
@@ -134,38 +147,44 @@ namespace PrintSelected.API
             Word.Documents docs = null;
             Word.Dialog dialog = null;
 
-            try
+            if (!String.IsNullOrEmpty(file))
             {
-                docs = wordApp.Documents;
-                doc = docs.Open(file);
-
-                doc.Activate();
-                dialog = wordApp.Dialogs[Word.WdWordDialog.wdDialogFilePrint];
-                var dialogResult = dialog.Show(ref nullobj);
-                if (dialogResult == 1)
+                try
                 {
-                    doc.PrintOut(false);
+                    docs = wordApp.Documents;
+                    doc = docs.Open(file);
+
+                    doc.Activate();
+                    dialog = wordApp.Dialogs[Word.WdWordDialog.wdDialogFilePrint];
+                    var dialogResult = dialog.Show(ref nullobj);
+                    if (dialogResult == 1)
+                    {
+                        doc.PrintOut(false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("Ошибка печати {0}", ex.Message);
+                    MessageBox.Show("Не могу напечатать документ");
+
+                }
+                finally
+                {
+                    Thread.Sleep(3000);
+                    if (dialog != null) Marshal.FinalReleaseComObject(dialog);
+                    if (doc != null) Marshal.FinalReleaseComObject(doc);
+                    if (docs != null) Marshal.FinalReleaseComObject(docs);
+
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+
+                    doc = null;
+                    wordApp.Quit(false, ref nullobj, ref nullobj);
                 }
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                Thread.Sleep(3000);
-                if (dialog != null) Marshal.FinalReleaseComObject(dialog);
-                if (doc != null) Marshal.FinalReleaseComObject(doc);
-                if (docs != null) Marshal.FinalReleaseComObject(docs);
-
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-                doc = null;
-                wordApp.Quit(false, ref nullobj, ref nullobj);
-            }
+            else { MessageBox.Show("Не найден файл для печати"); }
 
         }
 
