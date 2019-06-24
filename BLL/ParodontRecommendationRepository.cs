@@ -13,7 +13,7 @@ namespace PrintSelected.BLL
 {
     public class ParodontRecommendationRepository : IRepository<ParodontRecommendation>
     {
-        private string path = @"ParodontRecommendation.json";
+        private readonly string path = @"ParodontRecommendation.json";
 
         public bool Create(string text)
         {
@@ -81,7 +81,7 @@ namespace PrintSelected.BLL
             {
                 using (TextReader file = File.OpenText(path))
                 {
-                    string json = file.ReadToEnd();
+                    var json = file.ReadToEnd();
                     JsonSerializer serializer = new JsonSerializer();
                     recommendationList = JsonConvert.DeserializeObject<List<ParodontRecommendation>>(json);
                 }
@@ -106,13 +106,13 @@ namespace PrintSelected.BLL
             {
                 if (File.Exists(path))
                 {
-                    string json = JsonConvert.SerializeObject(recommendationList, Formatting.Indented);
+                    var json = JsonConvert.SerializeObject(recommendationList, Formatting.Indented);
                     File.WriteAllText(path, json);
                     res = true;
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;

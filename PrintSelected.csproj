@@ -58,7 +58,6 @@
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>packages\NLog.4.6.5\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -157,21 +156,6 @@
     <None Include="packages\Newtonsoft.Json.12.0.2\.signature.p7s" />
     <None Include="packages\Newtonsoft.Json.12.0.2\LICENSE.md" />
     <None Include="packages\Newtonsoft.Json.12.0.2\Newtonsoft.Json.12.0.2.nupkg" />
-    <None Include="packages\NLog.4.6.5\.signature.p7s" />
-    <None Include="packages\NLog.4.6.5\NLog.4.6.5.nupkg" />
-    <None Include="packages\NLog.Config.4.6.5\.signature.p7s" />
-    <None Include="packages\NLog.Config.4.6.5\contentFiles\any\any\NLog.config" />
-    <None Include="packages\NLog.Config.4.6.5\content\NLog.config" />
-    <None Include="packages\NLog.Config.4.6.5\NLog.Config.4.6.5.nupkg" />
-    <None Include="packages\NLog.Config.4.6.5\tools\Install.ps1" />
-    <None Include="packages\NLog.Schema.4.6.5\.signature.p7s" />
-    <None Include="packages\NLog.Schema.4.6.5\contentFiles\any\any\NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages\NLog.Schema.4.6.5\content\NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages\NLog.Schema.4.6.5\NLog.Schema.4.6.5.nupkg" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -251,28 +235,6 @@
     <Resource Include="packages\Newtonsoft.Json.12.0.2\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.12.0.2\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.dll" />
     <Resource Include="packages\Newtonsoft.Json.12.0.2\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\monoandroid44\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\monoandroid44\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\net35\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\net35\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\net40-client\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\net40-client\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\net45\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\net45\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\netstandard1.3\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\netstandard1.3\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\netstandard1.5\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\netstandard1.5\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\netstandard2.0\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\netstandard2.0\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\sl4\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\sl4\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\sl5\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\sl5\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\wp8\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\wp8\NLog.xml" />
-    <Content Include="packages\NLog.4.6.5\lib\xamarinios10\NLog.dll" />
-    <Resource Include="packages\NLog.4.6.5\lib\xamarinios10\NLog.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

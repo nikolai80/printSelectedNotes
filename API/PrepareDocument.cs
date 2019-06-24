@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Word = Microsoft.Office.Interop.Word;
 using System.Reflection;
 using System.Windows;
 using PrintSelected.BLL;
-using System.Windows.Controls;
 using System.Threading;
 using System.Runtime.InteropServices;
 using NLog;
@@ -16,23 +13,20 @@ namespace PrintSelected.API
 {
     class PrepareDocument
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         public List<string> DocumentIds { get; set; }
-        ParodontRecommendationRepository repo = new ParodontRecommendationRepository();
+
+        readonly ParodontRecommendationRepository repo = new ParodontRecommendationRepository();
         public string CreateDocumentWord(string pacientName)
         {
-            string res = "";
-            StringBuilder finalText = new StringBuilder();
+            var res = "";
             try
             {
                 //Create an instance for word app  
-                Word.Application winword = new Word.Application();
-
-                //Set animation status for word application  
-                winword.ShowAnimation = false;
-
-                //Set status for word application is to be visible or not.  
-                winword.Visible = false;
+                Word.Application winword = new Word.Application {
+                    ShowAnimation = false,
+                    Visible = false
+                };
 
                 //Create a missing variable for missing value  
                 object missing = Missing.Value;
@@ -103,7 +97,7 @@ namespace PrintSelected.API
 
         private string PrepareRecomendations()
         {
-            string res = "";
+            var res = "";
             try
             {
                 StringBuilder finalText = new StringBuilder();
@@ -127,9 +121,9 @@ namespace PrintSelected.API
 
         static private string GetDocumentDirectory()
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
             UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
+            var path = Uri.UnescapeDataString(uri.Path);
             path = System.IO.Path.GetDirectoryName(path);
             return path;
         }
@@ -139,9 +133,11 @@ namespace PrintSelected.API
 
             object nullobj = Missing.Value;
 
-            var wordApp = new Word.Application();
-            wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
-            wordApp.Visible = false;
+            var wordApp = new Word.Application
+            {
+                DisplayAlerts = Word.WdAlertLevel.wdAlertsNone,
+                Visible = false
+            };
 
             Word.Document doc = null;
             Word.Documents docs = null;
